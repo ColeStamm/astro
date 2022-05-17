@@ -1,0 +1,188 @@
+/**
+ * @prop --border-width: Calculated width given to all segment borders.
+ * @prop --border-< block | inline >-width: Calculated width given to all segment borders on the given axis.
+ * @prop --border-< block | inline >-< start | end >-width: Calculated width given to all segment borders on the given edge.
+ * @prop --padding: Calculated padding given to all segments.
+ * @prop --padding-< block | inline >: Calculated padding given to all segments on the given axis.
+ * @prop --padding-< block | inline >-< start | end >: Calculated padding given to all segments on the given edge.
+**/
+
+:host,
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+
+:host {
+    display: contents;
+
+    --border-width: 0px;
+    --border-block-width: var(--border-width);
+    --border-inline-width: var(--border-width);
+    --border-block-start-width: var(--border-block-width);
+    --border-block-end-width: var(--border-block-width);
+    --border-inline-start-width: var(--border-inline-width);
+    --border-inline-end-width: var(--border-inline-width);
+    --padding: 0px;
+    --padding-block: var(--padding);
+    --padding-inline: var(--padding);
+    --padding-block-start: var(--padding-block);
+    --padding-block-end: var(--padding-block);
+    --padding-inline-start: var(--padding-inline);
+    --padding-inline-end: var(--padding-inline);
+}
+
+slot {
+    pointer-events: none;
+}
+
+::slotted(*) {
+    all: unset !important;
+}
+
+[part~='content'] {
+    border-color: inherit;
+    border-radius: inherit;
+    display: inline-flex;
+    flex-basis: inherit;
+}
+
+[part~='segment'] {
+    align-items: center;
+    border-color: inherit;
+    border-style: solid;
+    border-block-end-width: min(
+        var(--padding-block-end),
+        var(--border-block-end-width)
+    );
+    border-block-start-width: min(
+        var(--padding-block-start),
+        var(--border-block-start-width)
+    );
+    border-inline-end-width: min(
+        var(--padding-inline-end),
+        var(--border-inline-end-width)
+    );
+    border-inline-start-width: min(
+        var(--padding-inline-start),
+        var(--border-inline-start-width)
+    );
+    cursor: pointer;
+    display: inline-flex;
+    flex-grow: 1;
+    justify-content: center;
+    letter-spacing: 0.005em;
+    outline-offset: -2px;
+    padding-block-end: calc(
+        var(--padding-block-end) -
+            clamp(0px, var(--border-block-end-width), var(--padding-block-end))
+    );
+    padding-block-start: calc(
+        var(--padding-block-start) -
+            clamp(
+                0px,
+                var(--border-block-start-width),
+                var(--padding-block-start)
+            )
+    );
+    padding-inline-end: calc(
+        var(--padding-inline-end) -
+            clamp(
+                0px,
+                var(--border-inline-end-width) / 2,
+                var(--padding-inline-end)
+            )
+    );
+    padding-inline-start: calc(
+        var(--padding-inline-start) -
+            clamp(
+                0px,
+                var(--border-inline-start-width) / 2,
+                var(--padding-inline-start)
+            )
+    );
+    text-align: center;
+    user-select: none;
+}
+
+[part~='segment']:first-child {
+    border-end-start-radius: inherit;
+    border-start-start-radius: inherit;
+}
+
+[part~='segment']:last-child {
+    border-end-end-radius: inherit;
+    border-start-end-radius: inherit;
+}
+
+[part~='segment']:is(:first-child) {
+    padding-inline-start: calc(
+        var(--padding-inline-start) -
+            clamp(0px, var(--border-width), var(--padding-inline-start))
+    );
+}
+
+[part~='segment']:is(:last-child) {
+    padding-inline-end: calc(
+        var(--padding-inline-end) -
+            clamp(0px, var(--border-width), var(--padding-inline-end))
+    );
+}
+
+[part~='segment']:not(:first-child) {
+    border-inline-start-width: clamp(
+        0px,
+        calc(var(--border-width) / 2),
+        var(--padding-inline-start)
+    );
+}
+
+[part~='segment']:not(:last-child) {
+    border-inline-end-width: clamp(
+        0px,
+        calc(var(--border-width) / 2),
+        var(--padding-inline-end)
+    );
+}
+
+/* Themed Component
+/* ================================== */
+
+:host(:is(:not([theme]), [theme='astro' i])) {
+    border-color: var(--color-border-interactive-muted);
+    border-radius: 3px;
+    color: var(--color-text-interactive-default);
+
+    --border-width: 1px;
+    --padding-block: 4px;
+    --padding-inline: 16px;
+}
+
+:host(:is(:not([theme]), [theme='astro' i])) [part~='segment'] {
+    background-color: var(--color-background-base-default);
+}
+
+:host(:is(:not([theme]), [theme='astro' i]))
+    [part~='segment']:is(:hover, :focus-visible) {
+    background-color: var(--color-background-base-hover);
+    color: var(--color-text-interactive-hover);
+}
+
+:host(:is(:not([theme]), [theme='astro' i]))
+    [part~='segment'][part~='--selected'] {
+    background-color: var(--color-background-base-selected);
+    color: var(--color-text-primary);
+}
+
+/* [part~='--medium'] {
+    --padding-y: 7.5px;
+}
+
+[part~='--small'] {
+    --padding-y: 3.5px;
+}
+
+[part~='--large'] {
+    --padding-y: 13.5px;
+} */

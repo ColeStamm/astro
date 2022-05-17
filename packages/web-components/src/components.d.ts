@@ -8,7 +8,6 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { Classification, Status, StatusTags } from "./common/commonTypes.module";
 import { LogRow } from "./components/rux-log/rux-log.model";
 import { RangeItem } from "./components/rux-monitoring-progress-icon/rux-monitoring-progress-icon";
-import { SegmentedButton } from "./components/rux-segmented-button/rux-segmented-button.model";
 export namespace Components {
     interface RuxButton {
         /**
@@ -12236,21 +12235,13 @@ export namespace Components {
     }
     interface RuxSegmentedButton {
         /**
-          * Items in this Array are the individual button segments.
+          * Element containing the currently selected segment.
          */
-        "data": SegmentedButton[];
+        "selectedElement": globalThis.Element | null;
         /**
-          * Sets the disabled attribute.
+          * Value of the currently selected segment.
          */
-        "disabled": boolean;
-        /**
-          * When passed in on load, this selects the first button segment with a matching label. When the selected segment changes, this property updates with the currently selected value, which reflects back to the component attribute. If no button segment label matches this string, then no segment is selected. This value takes priority over setting selected boolean property on the items in the data array.
-         */
-        "selected": string;
-        /**
-          * Changes size of segmented button from small to medium or large.
-         */
-        "size"?: 'small' | 'medium' | 'large';
+        "value": string | null;
     }
     interface RuxSelect {
         /**
@@ -32564,25 +32555,13 @@ declare namespace LocalJSX {
     }
     interface RuxSegmentedButton {
         /**
-          * Items in this Array are the individual button segments.
+          * Element containing the currently selected segment.
          */
-        "data"?: SegmentedButton[];
+        "selectedElement": globalThis.Element | null;
         /**
-          * Sets the disabled attribute.
+          * Value of the currently selected segment.
          */
-        "disabled"?: boolean;
-        /**
-          * Emitted when the value property has changed.
-         */
-        "onRuxchange"?: (event: CustomEvent<any>) => void;
-        /**
-          * When passed in on load, this selects the first button segment with a matching label. When the selected segment changes, this property updates with the currently selected value, which reflects back to the component attribute. If no button segment label matches this string, then no segment is selected. This value takes priority over setting selected boolean property on the items in the data array.
-         */
-        "selected"?: string;
-        /**
-          * Changes size of segmented button from small to medium or large.
-         */
-        "size"?: 'small' | 'medium' | 'large';
+        "value": string | null;
     }
     interface RuxSelect {
         /**

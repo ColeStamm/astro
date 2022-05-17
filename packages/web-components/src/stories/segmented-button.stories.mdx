@@ -8,7 +8,7 @@ import { html, render } from 'lit-html'
     argTypes={extractArgTypes('rux-segmented-button')}
     parameters={{
         actions: {
-            handles: ['ruxchange rux-segmented-button'],
+            handles: ['rux-segmented-button'],
         },
     }}
 />
@@ -19,40 +19,34 @@ Segmented Buttons allow users to select one item at a time from two to four opti
 
 ## Guidelines
 
--   [Astro UXDS: Segmented Button](https://astrouxds.com/ui-components/segmented-button)
+- [Astro UXDS: Segmented Button](https://astrouxds.com/ui-components/segmented-button)
 
-export const Default = (args) => {
-    const segmentButtonArray = [
-        { label: 'First item' },
-        { label: 'Second item' },
-        { label: 'Third item' },
-    ]
-    document.addEventListener('change', (e) => action('change')(e.target))
-    return html`
-<div style="padding: 10vh 5vw; display: flex; justify-content: center;">
-    <rux-segmented-button
-        .data="${args.data}"
-        .selected="${args.selected}"
-        .size="${args.size}"
-    ></rux-segmented-button>
-</div>
-    `
-}
+export const Default = (args) => html`<main>
+  <rux-segmented-button .innerHTML="${'\n    ' + args.content.trim().replace(/\n/g, '\n    ') + '\n  '}"></rux-segmented-button>
+  <style .innerHTML="\n${args.styles.trim()}\n  "></style>
+</main>`
 
 <Canvas>
     <Story
-        args={{
-            data: [
-                { label: 'First item' },
-                { label: 'Second item', selected: true },
-                { label: 'Third item' },
-            ],
-            selected: 'Second item',
-            size: 'small'
-        }}
         name="Default"
+        args={{
+            content: [
+                '<button>Button 1</button>',
+                '<button>Button 2</button>',
+                '<button>Button 3</button>',
+            ].join('\n'),
+            styles: [
+                'rux-segmented-button {',
+                '  border-radius: 3px;',
+                '',
+                '  --border-width: 1px;',
+                '  --padding-block: 4px;',
+                '  --padding-inline: 16px;',
+                '}',
+            ].join('\n'),
+        }}
     >
-        {Default.bind()}
+        {Default}
     </Story>
 </Canvas>
 
@@ -60,137 +54,47 @@ export const Default = (args) => {
 
 <ArgsTable of="rux-segmented-button" />
 
-## Variants
+## Customization
 
-### Disabled
+### Shadow Parts
 
-export const Disabled = (args) => {
-    const segmentButtonArray = [
-        { label: 'First item' },
-        { label: 'Second item' },
-        { label: 'Third item' },
-    ]
-    document.addEventListener('change', (e) => action('change')(e.target))
-    return html`
-<div style="padding: 10vh 5vw; display: flex; justify-content: center;">
-    <rux-segmented-button
-        .data="${args.data}"
-        .size="${args.size}"
-        ?disabled="${args.disabled}"
-    ></rux-segmented-button>
-</div>
-    `
+Customize the `segment` Shadow Part to have full control over segment styles.
+
+```css
+rux-segmented-button::part(segment) {
+  background-color: navy;
+  border-color: goldenrod;
+  color: yellow;
 }
 
-<Canvas>
-    <Story
-        args={{
-            data: [
-                { label: 'First item' },
-                { label: 'Second item', selected: true },
-                { label: 'Third item' },
-            ],
-            selected: 'Second item',
-            size: 'small',
-            disabled: true
-        }}
-        name="Disabled"
-    >
-        {Disabled.bind()}
-    </Story>
-</Canvas>
-
-### Medium
-
-export const Medium = (args) => {
-    const segmentButtonArray = [
-        { label: 'First item' },
-        { label: 'Second item' },
-        { label: 'Third item' },
-    ]
-    document.addEventListener('change', (e) => action('change')(e.target))
-    return html`
-<div style="padding: 10vh 5vw; display: flex; justify-content: center;">
-    <rux-segmented-button
-        .data="${args.data}"
-        .size="${args.size}"
-    ></rux-segmented-button>
-</div>
-    `
+rux-segmented-button::part(segment):is(:hover, :focus-visible) {
+  background-color: blue;
+  border-color: orange;
+  color: white;
 }
-
-<Canvas>
-    <Story
-        args={{
-            data: [
-                { label: 'First item' },
-                { label: 'Second item', selected: true },
-                { label: 'Third item' },
-            ],
-            selected: 'Second item',
-            size: 'medium'
-        }}
-        name="Medium"
-    >
-        {Medium.bind()}
-    </Story>
-</Canvas>
-
-### Large
-
-export const Large = (args) => {
-    const segmentButtonArray = [
-        { label: 'First item' },
-        { label: 'Second item' },
-        { label: 'Third item' },
-    ]
-    document.addEventListener('change', (e) => action('change')(e.target))
-    return html`
-<div style="padding: 10vh 5vw; display: flex; justify-content: center;">
-    <rux-segmented-button
-        .data="${args.data}"
-        .size="${args.size}"
-    ></rux-segmented-button>
-</div>
-    `
-}
-
-<Canvas>
-    <Story
-        args={{
-            data: [
-                { label: 'First item' },
-                { label: 'Second item', selected: true },
-                { label: 'Third item' },
-            ],
-            selected: 'Second item',
-            size: 'large'
-        }}
-        name="Large"
-    >
-        {Large.bind()}
-    </Story>
-</Canvas>
-
-## Usage
-
-Pass an array of segments via the `data` attribute on the Segmented Button custom element. Segment items in the `data` array must be objects with a `label` string. The first item in the array will be auto-selected unless another segment item has a `selected` property with a truthy value. Avoid labels with the same text, as this will interfere with selecting segments. 
-
-### SegmentedButton Data Object
-
-```json
-[
-  { label: "First segment" },
-  { label: "Second segment", selected: true },
-  { label: "Third segment" },
-];
 ```
 
-## Cherry Picking
+export const ShadowParts = (args) => html`<main>
+  <rux-segmented-button class="demo-segmented-button-w-shadow-parts">
+    <button>Button 1</button>
+    <button>Button 2</button>
+    <button default-selected>Button 3</button>
+  </rux-segmented-button>
+  <style .innerHTML="\n${[
+    '.demo-segmented-button-w-shadow-parts::part(segment) {',
+    '  background-color: navy;',
+    '  border-color: goldenrod;',
+    '  color: yellow;',
+    '}',
+    '',
+    '.demo-segmented-button-w-shadow-parts::part(segment):is(:hover, :focus-visible) {',
+    '  background-color: blue;',
+    '  border-color: orange;',
+    '  color: white;',
+    '}',
+  ].join('\n')}\n  "></style>
+</main>`
 
-If you're already utilizing a build system that supports tree shaking and want to only import this individual component:
-
-```js
-import RuxSegmentedButton from '@astrouxds/astro-web-components/dist/components/rux-segmented-button.js'
-customElements.define('rux-segmented-button', RuxSegmentedButton)
-```
+<Canvas>
+    <Story name="Shadow Parts">{ShadowParts}</Story>
+</Canvas>

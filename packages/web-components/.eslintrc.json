@@ -1,4 +1,7 @@
 {
+    "env": {
+        "es2021": true
+    },
     "parserOptions": {
         "project": "./packages/web-components/tsconfig.json"
     },
@@ -6,5 +9,6 @@
     "rules": {
         "@stencil/decorators-style": "off",
         "@stencil/strict-boolean-conditions": "off"
-    }
+    },
+    "ignorePatterns": ["cypress/globals.d.ts"]
 }

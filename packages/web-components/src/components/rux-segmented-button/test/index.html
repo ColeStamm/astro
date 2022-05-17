@@ -1,55 +1,106 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en">
+<html lang="en">
     <head>
         <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
-        />
+        <meta name="viewport" content="width=device-width" />
         <title>Stencil Component Starter</title>
-
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;300;400&family=Roboto:wght@100;300;400;500;700;900&display=swap"
             rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;300;400&family=Roboto:wght@100;300;400;500;700;900&display=swap"
         />
+        <link rel="stylesheet" href="/build/astro-web-components.css" />
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/@astrouxds/design-tokens/dist/css/_colors-global.css"
+        />
+
         <script type="module" src="/build/astro-web-components.esm.js"></script>
         <script nomodule src="/build/astro-web-components.js"></script>
-
-        <link rel="stylesheet" href="/build/astro-web-components.css" />
     </head>
-
     <body>
         <div style="padding: 5%">
-            <rux-segmented-button></rux-segmented-button>
-        </div>
-        <div style="padding: 5%">
-            <rux-segmented-button id="disabled" disabled></rux-segmented-button>
+            <section>
+                <h3>Test A</h3>
+                <rux-segmented-button id="TestA">
+                    <button>Segment 1</button>
+                    <button>Segment 2</button>
+                    <button>Segment 3</button>
+                </rux-segmented-button>
+                <p>
+                    <button onclick="appendSegment(TestA)">
+                        Append Segment
+                    </button>
+                    <button onclick="removeSegment(TestA)">
+                        Remove Segment
+                    </button>
+                    <button onclick="selectSegment(TestA, 0)">
+                        Select First Segment
+                    </button>
+                </p>
+            </section>
+            <section>
+                <h3>Test B</h3>
+                <rux-segmented-button id="TestB">
+                    <button onclick="console.log('Special Log from Segment 1')">
+                        Segment 1
+                    </button>
+                    <button data-default-selected>Segment 2</button>
+                    <button>Segment 3</button>
+                </rux-segmented-button>
+                <p>
+                    <button onclick="appendSegment(TestB)">
+                        Append Segment
+                    </button>
+                    <button onclick="removeSegment(TestB)">
+                        Remove Segment
+                    </button>
+                    <button onclick="selectSegment(TestB, 0)">
+                        Select First Segment
+                    </button>
+                </p>
+            </section>
         </div>
         <script>
-            const seg = document.querySelector('rux-segmented-button')
-            const disabled = document.getElementById('disabled')
-            const data = [
-                { label: 'First segment' },
-                { label: 'Second segment', selected: true },
-                { label: 'Third segment' },
-            ]
+            let buttons = document.querySelectorAll('rux-segmented-button')
 
-            seg.data = data
-            seg.addEventListener('click', () => {
-                console.log('heard click')
-            })
-            seg.addEventListener('ruxchange', () => {
-                console.log('heard change')
-            })
+            for (let button of buttons) {
+                button.addEventListener('click', (event) => {
+                    console.group('click')
+                    console.log('target:', event.target)
+                    console.log('currentTarget:', event.currentTarget)
+                    console.groupEnd()
+                })
 
-            disabled.data = data
-            disabled.addEventListener('click', () => {
-                console.log('Disabled --- heard click')
-            })
-            disabled.addEventListener('ruxchange', () => {
-                console.log('disabled --- heard change')
-            })
+                button.addEventListener('change', (event) => {
+                    console.group('change')
+                    console.log('target:', event.target)
+                    console.log('currentTarget:', event.currentTarget)
+                    console.groupEnd()
+                })
+            }
+
+            globalThis.appendSegment = (host) => {
+                const button = document.createElement('button')
+                const nextId = host.children.length + 1
+
+                button.append('Button ' + nextId)
+
+                host.append(button)
+            }
+
+            globalThis.removeSegment = (host) => {
+                host.lastElementChild.remove()
+            }
+
+            globalThis.selectSegment = (host, index) => {
+                host.selectedElement = host.children[index]
+            }
+
+            // @TODO: Demonstrate declarative default `disabled` state.
+            // @TODO: Demonstrate imperative change to the `disabled` state.
+            // @TODO: Demonstrate variants.
+            // @TODO: Copy these demonstrations into tests.
         </script>
     </body>
 </html>
