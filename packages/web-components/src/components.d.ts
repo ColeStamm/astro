@@ -12553,6 +12553,12 @@ export namespace Components {
          */
         "setSelected": (value: boolean) => Promise<void>;
     }
+    interface SvgStatus {
+        /**
+          * Sets the status symbol, valid options are critical, serious, caution, normal, standby and off
+         */
+        "status"?: Status;
+    }
 }
 declare global {
     interface HTMLRuxButtonElement extends Components.RuxButton, HTMLStencilElement {
@@ -19173,6 +19179,12 @@ declare global {
         prototype: HTMLRuxTreeNodeElement;
         new (): HTMLRuxTreeNodeElement;
     };
+    interface HTMLSvgStatusElement extends Components.SvgStatus, HTMLStencilElement {
+    }
+    var HTMLSvgStatusElement: {
+        prototype: HTMLSvgStatusElement;
+        new (): HTMLSvgStatusElement;
+    };
     interface HTMLElementTagNameMap {
         "rux-button": HTMLRuxButtonElement;
         "rux-button-group": HTMLRuxButtonGroupElement;
@@ -20277,6 +20289,7 @@ declare global {
         "rux-track": HTMLRuxTrackElement;
         "rux-tree": HTMLRuxTreeElement;
         "rux-tree-node": HTMLRuxTreeNodeElement;
+        "svg-status": HTMLSvgStatusElement;
     }
 }
 declare namespace LocalJSX {
@@ -32931,6 +32944,12 @@ declare namespace LocalJSX {
          */
         "selected"?: boolean;
     }
+    interface SvgStatus {
+        /**
+          * Sets the status symbol, valid options are critical, serious, caution, normal, standby and off
+         */
+        "status"?: Status;
+    }
     interface IntrinsicElements {
         "rux-button": RuxButton;
         "rux-button-group": RuxButtonGroup;
@@ -34035,6 +34054,7 @@ declare namespace LocalJSX {
         "rux-track": RuxTrack;
         "rux-tree": RuxTree;
         "rux-tree-node": RuxTreeNode;
+        "svg-status": SvgStatus;
     }
 }
 export { LocalJSX as JSX };
@@ -35144,6 +35164,7 @@ declare module "@stencil/core" {
             "rux-track": LocalJSX.RuxTrack & JSXBase.HTMLAttributes<HTMLRuxTrackElement>;
             "rux-tree": LocalJSX.RuxTree & JSXBase.HTMLAttributes<HTMLRuxTreeElement>;
             "rux-tree-node": LocalJSX.RuxTreeNode & JSXBase.HTMLAttributes<HTMLRuxTreeNodeElement>;
+            "svg-status": LocalJSX.SvgStatus & JSXBase.HTMLAttributes<HTMLSvgStatusElement>;
         }
     }
 }

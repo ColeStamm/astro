@@ -19,5 +19,147 @@
         <link rel="stylesheet" href="/build/astro-web-components.css" />
     </head>
 
-    <body></body>
+    <body class="light-theme">
+        <style>
+            rux-status {
+                display: inline-block;
+            }
+
+            svg-status {
+                display: inline-block;
+            }
+        </style>
+        <script>
+            // Random changing of status
+            const statusTypes = ['standby', 'critical', 'caution']
+            const svg = false
+            // const svg = true;
+
+            function getRandomInt(max) {
+                return Math.floor(Math.random() * max)
+            }
+
+            function getRandomIntNotZero(max) {
+                let res = Math.floor(Math.random() * max)
+                if (res === 0) {
+                    res = 1.5
+                }
+                return res
+            }
+
+            function forLoop() {
+                for (let i = 0; i < 1e4; i++) {
+                    setup()
+                }
+            }
+
+            function getStati() {
+                let stati
+                if (svg) {
+                    stati = document.querySelectorAll('status-svg')
+                } else {
+                    stati = document.querySelectorAll('rux-status')
+                }
+                return stati
+            }
+
+            let randomTime = getRandomInt(3) * 1000
+
+            function randomizeSatus() {
+                const stati = getStati()
+                stati.forEach((target) => {
+                    target.status = statusTypes[getRandomInt(3)]
+                })
+                // stati.forEach((target) => {
+                //     target.status = statusTypes[getRandomInt(3)]
+                //     window.setInterval(() => {
+                //         target.status = statusTypes[getRandomInt(3)]
+                //     }, getRandomIntNotZero(3) * 1000)
+                // })
+            }
+
+            function setup() {
+                let target
+                if (svg) {
+                    target = document.createElement('svg-status')
+                } else target = document.createElement('rux-status')
+                target.setAttribute('status', 'standby')
+                document.body.append(target)
+            }
+
+            let interval = 1000
+            let intervalId
+            // Function that changes the timer
+            function changeStatus() {
+                const stati = getStati()
+                const length = stati.length
+                for (let i = 0; i < 100; i++) {
+                    stati[getRandomInt(length - 1)].status =
+                        statusTypes[getRandomInt(3)]
+                    stati[getRandomInt(length - 1)].status =
+                        statusTypes[getRandomInt(3)]
+                    stati[getRandomInt(length - 1)].status =
+                        statusTypes[getRandomInt(3)]
+                }
+            }
+            window.onload = () => {
+                forLoop()
+                randomizeSatus()
+
+                let timer = window.setInterval(() => {
+                    changeStatus()
+                }, 1000)
+
+                // startInterval(interval)
+                // clearInterval(intervalId)
+                // interval = getRandomInt(3) * 1000;
+                // startInterval(interval)
+            }
+
+            function startInterval(_interval) {
+                intervalId = setInterval(function () {
+                    changeStatus()
+                    interval = getRandomInt(3) * 1000
+                }, _interval)
+            }
+            function getInterval() {
+                return interval
+            }
+        </script>
+        <!-- <script>
+        // synchronous changing of status every second
+        // const svg = true;
+        const svg = false;
+        window.onload = () => {
+            for (let i = 0; i < 1e3; i++) {
+                setup()
+            }
+
+            const statusTypes = ["standby", "critical", "caution"]
+            let stati;
+            if (!svg) {
+                stati = document.querySelectorAll('rux-status');
+            } else stati = document.querySelectorAll('svg-status');
+
+            let count = 0;
+            let timer = window.setInterval(() => {
+                stati.forEach((target) => {
+                    target.status = statusTypes[count]
+                })
+                count++
+                if (count >= 3) {
+                    count = 0;
+                }
+            }, 1000)
+        }
+        const setup = () => {
+            let target;
+            if (svg) {
+                target = document.createElement('svg-status');
+            } else target = document.createElement('rux-status')
+            target.setAttribute('status', 'standby')
+            document.body.append(target)
+        }
+    </script> -->
+    </body>
 </html>
