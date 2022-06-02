@@ -48,7 +48,7 @@
             }
 
             function forLoop() {
-                for (let i = 0; i < 1e4; i++) {
+                for (let i = 0; i < 1e3; i++) {
                     setup()
                 }
             }
@@ -56,7 +56,7 @@
             function getStati() {
                 let stati
                 if (svg) {
-                    stati = document.querySelectorAll('status-svg')
+                    stati = document.querySelectorAll('svg-status')
                 } else {
                     stati = document.querySelectorAll('rux-status')
                 }
@@ -70,12 +70,6 @@
                 stati.forEach((target) => {
                     target.status = statusTypes[getRandomInt(3)]
                 })
-                // stati.forEach((target) => {
-                //     target.status = statusTypes[getRandomInt(3)]
-                //     window.setInterval(() => {
-                //         target.status = statusTypes[getRandomInt(3)]
-                //     }, getRandomIntNotZero(3) * 1000)
-                // })
             }
 
             function setup() {
@@ -108,22 +102,7 @@
 
                 let timer = window.setInterval(() => {
                     changeStatus()
-                }, 1000)
-
-                // startInterval(interval)
-                // clearInterval(intervalId)
-                // interval = getRandomInt(3) * 1000;
-                // startInterval(interval)
-            }
-
-            function startInterval(_interval) {
-                intervalId = setInterval(function () {
-                    changeStatus()
-                    interval = getRandomInt(3) * 1000
-                }, _interval)
-            }
-            function getInterval() {
-                return interval
+                }, 500)
             }
         </script>
         <!-- <script>
